@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Detección de movimiento</title>
+</head>
+
+<body>
+    <!--dentro del body detectamos la camara-->
+    <canvas id="lienzo" width="640px" height="480px"></canvas>
+    <video id="video" autoplay></video> <!--autoplay para que se ejecute el video-->
+    <script>
+        const video = document.getElementById("video");
+        const lienzo = document.getElementById("lienzo");
+        const contexto = lienzo.getContext("2d");
+
+        //capturar video
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (flujo) {
+                video.srcObject = flujo;
+            })
+            .catch(function (error) {
+                console.log("Error: " + error)
+            })
+        //dibujar el video en un canvas para poder manipularlo
+        function videoAlienzo() {
+            //poner el video en 0,0 
+            contexto.drawImage(video, 0, 0, lienzo.width, lienzo.height);
+            //coger el pixel del centro x,y,w,h con 1px de ancho y de largo
+            let pixel = contexto.getImageData(320, 240, 1, 1);
+            console.log(pixel.data[0]); //para obtener el array de pixeles
+            requestAnimationFrame(videoAlienzo)//funcion que se llama a si misma
+        }
+        //evento al pulsar play
+        video.addEventListener('play', function () {
+            videoAlienzo()
+        })
+
+    </script>
+</body>
+
+</html>
