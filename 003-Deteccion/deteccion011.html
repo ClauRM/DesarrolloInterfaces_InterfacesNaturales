@@ -47,7 +47,11 @@
                     datos.push(pixel.data);
                     datos.push(x);
                     datos.push(y);
-                    pixelesnuevos.push(datos); //aniadir pixeles x e y al array
+                    pixelesnuevos.push({
+                        data: pixel.data,
+                        x: x,
+                        y: y
+                    }); //aniadir pixeles x e y al array
                 }
             }
             if (contador > 0) {
@@ -56,9 +60,12 @@
                     let rojonuevo = pixelesnuevos[i][0];
                     let rojoviejo = pixelesnuevos[i][0];
                     let diferencia = Math.abs(rojonuevo - rojoviejo); //solo valores positivos
-                    if (diferencia > 5) {
-                        console.log("si");
-                        contexto.strokeRect(x, y, paso, paso);//dibujar un rectangulo donde hay cambio
+                    if (diferencia > 10) {
+                        contexto2.strokeRect(
+                            pixelesnuevos[i].x,
+                            pixelesnuevos[i].y,
+                            paso,
+                            paso);//4 vertices para dibujar un rectangulo donde hay cambio
                     }
                 }
             }
