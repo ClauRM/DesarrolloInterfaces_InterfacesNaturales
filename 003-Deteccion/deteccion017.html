@@ -1,12 +1,33 @@
 <!DOCTYPE html>
-<html lang="es">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detección de movimiento</title>
     <style>
+        * {
+            margin: 0;
+            /*sin barra de desplazamiento*/
+            padding: 0;
+        }
+
         html,
         body {
+            margin: 0;
+            /*ocupar 100% de la pantalla*/
+            padding: 0;
+            width: 100%;
+            height: 100%;
             background-color: black;
+            color: azure;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        }
+
+        header {
+            height: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         video {
@@ -15,21 +36,76 @@
 
         canvas {
             position: absolute;
-            top: 0px;
-            left: 0px;
         }
 
         #lienzo2 {
             opacity: 0.8;
         }
+
+        section {
+            height: 80%;
+            /*altura del contendedor (640x480)*/
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+        }
+
+        #contenedor {
+            height: 70%;
+            display: flex;
+            justify-content: center;
+        }
+
+        #texto {
+            height: 10%;
+        }
+
+        #botonera {
+            height: 20%;
+        }
+
+        footer {
+            height: 10%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        a {
+            color: rgb(161, 161, 252);
+            text-decoration: none;
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <h1 id="titulo">Detección de movimiento</h1>
+    </header>
     <!--dentro del body detectamos la camara-->
-    <canvas id="lienzo" width="640px" height="480px"></canvas>
-    <canvas id="lienzo2" width="640px" height="480px"></canvas>
-    <video id="video" autoplay></video> <!--autoplay para que se ejecute el video-->
+    <section>
+        <div id="texto">
+            <p>Para que la página capture los puntos de movimiento, deberá dar permiso de acceso a la cámara</p>
+        </div>
+        <div id="contenedor">
+            <canvas id="lienzo" width="640px" height="480px"></canvas>
+            <canvas id="lienzo2" width="640px" height="480px"></canvas>
+            <video id="video" autoplay></video> <!--autoplay para que se ejecute el video-->
+        </div>
+        <div id="botonera">
+            <div>
+                <label>Tamaño del área en movimiento:</label>
+                <input id="paso" type="range" min=5 max=30>
+            </div>
+
+        </div>
+    </section>
+    <footer id="pie">
+        <p>Claudia Rubio 2023 &copy</p>
+        <a href="https://github.com/ClauRM/DesarrolloInterfaces_InterfacesNaturales/tree/main/003-Deteccion">Interfaces
+            Naturales</a>
+    </footer>
     <script>
         //Declaracion de variables
         const video = document.getElementById("video");
