@@ -18,6 +18,10 @@
             top: 0px;
             left: 0px;
         }
+
+        #lienzo2 {
+            opacity: 0.8;
+        }
     </style>
 </head>
 
@@ -29,10 +33,11 @@
     <script>
         const video = document.getElementById("video");
         const lienzo = document.getElementById("lienzo");
-        const contexto = lienzo.getContext("2d");
         const lienzo2 = document.getElementById("lienzo2");
-        const contexto2 = lienzo.getContext("2d");
-        const paso = 32;
+        const contexto = lienzo.getContext("2d");
+        const contexto2 = lienzo2.getContext("2d");
+        contexto2.fillStyle = "rgba(255,255,255,0.1)"; //Color de fondo con opacidad (RGBA)
+        const paso = 16;
         var pixelesviejos = [];
         var pixelesnuevos = [];
         var contador = 0;
@@ -43,13 +48,12 @@
                 video.srcObject = flujo;
             })
             .catch(function (error) {
-                console.log("Error: " + error)
+                console.log("Error: " + error);
             })
-
+        
         //dibujar el video en un canvas para poder manipularlo
         function videoAlienzo() {
-            contexto2.clearRect(0, 0, 640, 480);//vaciar
-            console.log("-");
+            contexto2.fillRect(0, 0, 640, 480);
             //poner el video en 0,0 
             contexto.drawImage(video, 0, 0, lienzo.width, lienzo.height);
             pixelesviejos = pixelesnuevos;
@@ -59,7 +63,6 @@
                 for (let y = 0; y < 480; y += paso) {
                     //coger el pixel la posicion x,y,w,h con 1px de ancho y de largo
                     let pixel = contexto.getImageData(x, y, 1, 1);
-                    let datos = [];
                     //almacenar pixel
                     pixelesnuevos.push({
                         data: pixel.data,
@@ -77,7 +80,7 @@
                     //calcular la diferencia de colores para controlar si hay movimiento
                     let diferencia = Math.abs(rojonuevo - rojoviejo); //solo valores positivos
                     //si hay diferencia dibujar un rectangulo alrededor de 10px
-                    if (diferencia > 10) {
+                    if (diferencia > 20) {
                         contexto2.strokeRect(
                             pixelesnuevos[i].x,
                             pixelesnuevos[i].y,
@@ -94,7 +97,7 @@
         video.addEventListener('play', function () {
             videoAlienzo()
         })
-
+        
     </script>
 </body>
 
