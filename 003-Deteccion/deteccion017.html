@@ -93,13 +93,16 @@
             <canvas id="lienzo2" width="640px" height="480px"></canvas>
             <video id="video" autoplay></video> <!--autoplay para que se ejecute el video-->
         </div>
-        <div id="botonera">
+        <!-- <div id="botonera">
             <div>
                 <label>Tamaño del área en movimiento:</label>
-                <input id="paso" type="range" min=5 max=30>
+                <input id="paso" type="range" min=10 max=128>
             </div>
-
-        </div>
+            <div>
+                <label>Tamaño del promedio de cambio:</label>
+                <input id="promedio" type="range" min=1 max=128>
+            </div>
+        </div> -->
     </section>
     <footer id="pie">
         <p>Claudia Rubio 2023 &copy</p>
@@ -107,6 +110,18 @@
             Naturales</a>
     </footer>
     <script>
+        // //listener sobre el input range para capturar el tamanio de los cuadros
+        // document.querySelector("#paso").onchange = function () {
+        //     paso = this.value
+        //     console.log("El paso es: " + paso)
+        // }
+
+        // //listener sobre el input range para capturar el tamanio de los cuadros
+        // document.querySelector("#promedio").onchange = function () {
+        //     mipromedio = this.value
+        //     console.log("El promedio es: " + mipromedio)
+        // }
+
         //Declaracion de variables
         const video = document.getElementById("video");
         const lienzo = document.getElementById("lienzo");
@@ -118,7 +133,8 @@
         var cuadrosY = []
         var atencionX = []//puntos de atencion
         var atencionY = []
-        const paso = 16; //cada cuantos pixeles realizamos comparacion (tamanio del cuadrado)
+        var paso = 16; //cada cuantos pixeles realizamos comparacion (tamanio del cuadrado)
+        var mipromedio = 20;
         var pixelesviejos = []; //pixeles del fotograma anterior
         var pixelesnuevos = []; //pixeles del fotograma actual
         var contador = 0;
@@ -152,7 +168,6 @@
                         x: x,
                         y: y
                     }) //aniadir pixeles x e y al array
-
                 }
             }
             //si estamos en la segunda vuelta del bucle for
@@ -171,7 +186,7 @@
                     let diferenciaazul = Math.abs(azulnuevo - azulviejo);
                     let promedio = (diferenciarojo + diferenciaverde + diferenciaazul) / 3
                     //si hay diferencia dibujar un rectangulo alrededor de 10px
-                    if (promedio > 20) {
+                    if (promedio > mipromedio) {
                         contexto2.strokeRect(
                             pixelesnuevos[i].x,
                             pixelesnuevos[i].y,
